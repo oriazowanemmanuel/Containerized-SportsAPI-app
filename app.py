@@ -1,6 +1,9 @@
 from flask import Flask, jsonify
 import requests
 import os
+import json
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -15,12 +18,14 @@ def get_nfl_schedule():
         # Query SerpAPI
         params = {
             "engine": "google",
-            "q": "nfl schedule",
+            "q": "nfl schedule 2025",
             "api_key": SERP_API_KEY
         }
         response = requests.get(SERP_API_URL, params=params)
         response.raise_for_status()
         data = response.json()
+
+        print(json.dumps(data, indent=2))
 
         # Extract games from sports_results
         games = data.get("sports_results", {}).get("games", [])
