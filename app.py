@@ -3,6 +3,7 @@ import requests
 import os
 import json
 from dotenv import load_dotenv
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -11,8 +12,11 @@ app = Flask(__name__)
 SERP_API_URL = "https://serpapi.com/search.json"
 SERP_API_KEY = os.getenv("SPORTS_API_KEY")
 
+#Defines a new route /sports that only responds to HTTP GET requests.
+#When this route is hit, the get_nfl_schedule() function runs.
 @app.route('/sports', methods=['GET'])
 def get_nfl_schedule():
+
     #Fetches the NFL schedule from SerpAPI and returns it as JSON
     try:
         # Query SerpAPI
@@ -27,7 +31,8 @@ def get_nfl_schedule():
 
         print(json.dumps(data, indent=2))
 
-        # Extract games from sports_results
+        # Safely accesses the nested "games" list inside "sports_results".
+        #Defaults to an empty list if "sports_results" or "games" are missing.
         games = data.get("sports_results", {}).get("games", [])
         if not games:
             return jsonify({"message": "No NFL schedule available.", "games": []}), 200
@@ -51,8 +56,10 @@ def get_nfl_schedule():
             }
             formatted_games.append(game_info)
 
+        #Returns the list of formatted games and a success message in JSON format with a 200 status code.
         return jsonify({"message": "NFL schedule fetched successfully.", "games": formatted_games}), 200
     
+    #If anything in the try block fails, this catches the error and returns a 500 Internal Server Error with a message and the exception details
     except Exception as e:
         return jsonify({"message": "An error occurred.", "error": str(e)}), 500
 
