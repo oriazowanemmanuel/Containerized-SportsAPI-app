@@ -36,16 +36,15 @@ Full Article link: https://emmanueloriazowan.hashnode.dev/building-a-sports-api-
 2. # In .env file or export manually
 SPORTS_API_KEY=your_serpapi_key
 
-3. #pip install -r requirements.txt
+3. #Install all the dependencies that are listed in the requirement.txt file
+
+pip install -r requirements.txt
 
 4. #Run the app
+
  python3 app.py
 
-5. #Build the image
-
-docker build -t sports-api .
-
-6.Build and deploy to ECR
+5.Build and deploy to ECR
 
 docker build --platform linux/amd64 -t sports-api .
 docker tag sports-api:latest <AWS_ACCOUNT_ID>.dkr.ecr.<region>.amazonaws.com/sports-api:sports-api-latest
@@ -54,9 +53,10 @@ docker push <AWS_ACCOUNT_ID>.dkr.ecr.<region>.amazonaws.com/sports-api:sports-ap
 7. Login to AWS to confirm the image was properly pushed to ECR
 8. Login to ECS to create a task and then a service from the image uploaded to the ECR
 9. COnfigure a loadbalancer to sit in front of the container cluster
-9. Test with the container endpoint
+9. Test with the loadbalancer endpoint url
 10. Configure an API gateway to sit in front of the loadbalancer and send get requests
 11. Test again using the API gateway endpoint
+
 
 See the full documentation on: https://emmanueloriazowan.hashnode.dev/building-a-sports-api-with-flask-application-load-balancer-and-aws-ecs-a-full-guide#heading-architecture
 
