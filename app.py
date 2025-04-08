@@ -13,7 +13,7 @@ SERP_API_URL = "https://serpapi.com/search.json"
 SERP_API_KEY = os.getenv("SPORTS_API_KEY")
 
 #Defines a new route /sports that only responds to HTTP GET requests.
-#When this route is hit, the get_nfl_schedule() function runs.
+#When this route is hit, the get_nfl_schedule() function runs immediately.
 @app.route('/sports', methods=['GET'])
 def get_nfl_schedule():
 
@@ -37,7 +37,7 @@ def get_nfl_schedule():
         if not games:
             return jsonify({"message": "No NFL schedule available.", "games": []}), 200
 
-        # Format the schedule into JSON
+        # Format the schedule into JSON format
         formatted_games = []
         for game in games:
             teams = game.get("teams", [])
